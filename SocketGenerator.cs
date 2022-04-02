@@ -29,8 +29,8 @@ public class SocketGenerator {
         Side rotatedSide3 = rotatedSide2.RotateSide();
         
         // symmetries: A: 1234 (4-way), B: 12 (2-way), C: 1 (None)
-        bool isSymmetricA = side.Equals(rotatedSide1); //4-way symmetry
-        bool isSymmetricB = side.Equals(rotatedSide2) && rotatedSide1.Equals(rotatedSide3); //2-way symmetry
+        bool isSymmetricA = side.SetEquals(rotatedSide1); //4-way symmetry
+        bool isSymmetricB = side.SetEquals(rotatedSide2) && rotatedSide1.SetEquals(rotatedSide3); //2-way symmetry
 
         string sock;
 
@@ -65,7 +65,7 @@ public class SocketGenerator {
         //ABSTRACT AWAY TO GETMIRRORSYMMETRY METHOD IN SIDE (ENUMS)
         Side mirroredSide = side.MirrorSide();
 
-        bool isSymmetric = side.Equals(mirroredSide);
+        bool isSymmetric = side.SetEquals(mirroredSide);
 
         string sock;
 
