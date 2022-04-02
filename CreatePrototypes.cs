@@ -70,8 +70,6 @@ public class CreatePrototypes : MonoBehaviour
     //The meshes that will be turned into previews ("test objects")
     public Mesh[] meshArray;
 
-    private SideGenerator sideGenerator;
-
     //The mapping between "sides" (rename to "face configurations") and socket 
     //A string array is a leftover from trying an array of face configuration objects to string. Honestly, a string array is pretty dumb, it can just be a string.
     private Dictionary<string[], string> horizontalSocketDict = new Dictionary<string[], string>(new MyClassSpecialComparer()); //custom comparer works
@@ -80,7 +78,7 @@ public class CreatePrototypes : MonoBehaviour
 
     private void Awake()
     {
-        sideGenerator = new SideGenerator(meshEdge);
+        
     }
     
     [ContextMenu("Test Sockets by Generating Previews")]
