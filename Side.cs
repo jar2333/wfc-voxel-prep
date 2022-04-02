@@ -21,6 +21,11 @@ public class Side : HashSet<Vector2> {
         var strings = this.Select(v => v.ToString("F7"));
         return String.Join("\n", strings);
     }
+    
+    //override Equals
+    public bool Equals(Side other) {
+        return SetEquals(other);
+    }
 
     //Two verteces are equal if they are approx equal (float stuff grrrr)
     private class VertexComparer : IEqualityComparer<Vector2> {
