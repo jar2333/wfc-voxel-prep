@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class SocketGenerator
-{
-    
-    
+public class SocketGenerator {
     //The mapping from Sides to sockets (string)
     private Dictionary<Side, string> horizontalSocketDict;
     private Dictionary<Side, string> verticalSocketDict;
@@ -18,7 +15,13 @@ public class SocketGenerator
         verticalSocketDict   = new Dictionary<Side, string>(comparer);
     }
     
-    private string GetVerticalSocket(Side side) {
+    public void Reset() {
+        horizontalSocketDict.Clear();
+        verticalSocketDict.Clear();
+        topSocket = 1;
+    }
+    
+    public string GetVerticalSocket(Side side) {
         //ABSTRACT AWAY TO GETROTATIONALSYMMETRY METHOD IN SIDE (ENUMS)
         Side rotatedSide1 = side.RotateSide();
         Side rotatedSide2 = rotatedSide1.RotateSide();
@@ -57,7 +60,7 @@ public class SocketGenerator
         return sock;
     }
 
-    private string GetHorizontalSocket(Side side) {
+    public string GetHorizontalSocket(Side side) {
         //ABSTRACT AWAY TO GETMIRRORSYMMETRY METHOD IN SIDE (ENUMS)
         Side mirroredSide = side.MirrorSide();
 

@@ -3,9 +3,9 @@
 public class CubeFactory  {
     
     public static Cube GetCube(Vector3[] verteces, float meshEdge) {
-        Side[] hor = GetHorizontalSides(verteces, meshEdge);
-        Side[] ver = GetVerticalSides(verteces, meshEdge);
-        return new Cube(hor[0], hor[1], hor[2], hor[3], ver[0], ver[1]);
+        Side[] horizontal = GetHorizontalSides(verteces, meshEdge);
+        Side[] vertical = GetVerticalSides(verteces, meshEdge);
+        return new Cube(horizontal, vertical);
     }
 
     private static Side[] GetHorizontalSides(Vector3[] verteces, float meshEdge) {
