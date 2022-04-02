@@ -17,23 +17,32 @@ public class Side : HashSet<Vector2> {
     }
     
     //override ToString
+    public override string ToString() {
+        var strings = this.Select(v => v.ToString("F7"));
+        return String.Join("\n", strings);
+    }
 
     //Two verteces are equal if they are approx equal (float stuff grrrr)
     private class VertexComparer : IEqualityComparer<Vector2> {
         public bool Equals(Vector2 v1, Vector2 v2) {
-            bool x = FastApproximately(v1.x, v2.x, epsilon);
-            bool y = FastApproximately(v1.y, v2.y, epsilon);
+            bool x = FastApproximately(v1.x, v2.x);
+            bool y = FastApproximately(v1.y, v2.y);
             return x && y;
         }
-        public int GetHashCode(Vector2 v) { //might not work??
-            return v.GetHashCode();
+        public int GetHashCode(Vector2 v) {
+            string x = v.x.ToString(FORMAT);
+            string y = v.y.ToString(FORMAT);
+            return (x, y).GetHashCode();
         }
         
-        private bool FastApproximately(float a, float b, float threshold)
-        {
-            return ((a - b) < 0 ? ((a - b) * -1) : (a - b)) <= threshold;
+        private bool FastApproximately(float a, float b) {
+            //return ((a - b) < 0 ? ((a - b) * -1) : (a - b)) <= epsilon;
+            string aStr = a.ToString(FORMAT);
+            string bStr = b.ToString(FORMAT);
+            return aStr.Equals(bStr);
         }
         
-        private float epsilon = 1.0f;
+        //private float epsilon = 1.0f;
+        private readonly string FORMAT = "F7";
     }
 }
