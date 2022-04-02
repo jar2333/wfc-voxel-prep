@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class SocketGenerator {
     //The mapping from Sides to sockets (string)
@@ -39,7 +40,7 @@ public class SocketGenerator {
         }
 
         if (isSymmetricA) {
-            sock = topSocket.ToString() + "I";
+            sock = topSocket + "I";
             verticalSocketDict.Add(side, sock);
         }
         else if (isSymmetricB) {
@@ -70,12 +71,14 @@ public class SocketGenerator {
 
         if (horizontalSocketDict.ContainsKey(side)) {
             sock = horizontalSocketDict[side];
+            Debug.Log($"ACCESSED SIDE{side.ToString()}");
             return sock;
         }
 
         if (isSymmetric) {
-            sock = topSocket.ToString() + "S";
+            sock = topSocket + "S";
             horizontalSocketDict.Add(side, sock);
+            Debug.Log($"ADDED SIDE{side.ToString()}");
         }
         else {
             sock = topSocket.ToString();

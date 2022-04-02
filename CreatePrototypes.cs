@@ -56,12 +56,7 @@ public class CreatePrototypes : MonoBehaviour
     //The meshes that will be turned into previews ("test objects")
     public Mesh[] meshArray;
 
-    private SocketGenerator _socketGenerator;
-
-    private void Awake()
-    {
-        _socketGenerator = new SocketGenerator();
-    }
+    private SocketGenerator _socketGenerator = new SocketGenerator();
 
     [ContextMenu("Create Sockets and then previews")]
     private void TestSockets() {

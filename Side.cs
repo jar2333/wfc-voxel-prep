@@ -15,16 +15,25 @@ public class Side : HashSet<Vector2> {
     public Side RotateSide() {
         return new Side(this.Select(v => new Vector2(-1 * v.y, v.x)));
     }
+    
+    //override ToString
 
     //Two verteces are equal if they are approx equal (float stuff grrrr)
     private class VertexComparer : IEqualityComparer<Vector2> {
         public bool Equals(Vector2 v1, Vector2 v2) {
-            bool x = Mathf.Approximately(v1.x, v2.x);
-            bool y = Mathf.Approximately(v1.y, v2.y);
+            bool x = FastApproximately(v1.x, v2.x, epsilon);
+            bool y = FastApproximately(v1.y, v2.y, epsilon);
             return x && y;
         }
         public int GetHashCode(Vector2 v) { //might not work??
             return v.GetHashCode();
         }
+        
+        private bool FastApproximately(float a, float b, float threshold)
+        {
+            return ((a - b) < 0 ? ((a - b) * -1) : (a - b)) <= threshold;
+        }
+        
+        private float epsilon = 1.0f;
     }
 }
