@@ -16,6 +16,12 @@ public class CreatePrototypes : MonoBehaviour
         //      | /      | /
         //      |/       |/
         //      x--------+
+        // x: front
+        // z: right
+        //-x: back
+        //-z: left
+        // y: top
+        //-y: bottom
         public Prototype(string meshPath, int rotation, string[] hsockets, string[] vsockets) {
             this.meshPath = meshPath;
             this.rotation = rotation;
@@ -56,27 +62,22 @@ public class CreatePrototypes : MonoBehaviour
     //The meshes that will be turned into previews ("test objects")
     public Mesh[] meshArray;
 
-    private SocketGenerator _socketGenerator = new SocketGenerator();
+    private readonly SocketGenerator _socketGenerator = new SocketGenerator();
 
     [ContextMenu("Create Sockets and then previews")]
     private void TestSockets() {
         DeletePreviewsAndReset();
+        
         foreach (var mesh in meshArray) {
-
             Vector3[] verteces = mesh.vertices;
-
             Cube c = CubeFactory.GetCube(verteces, meshEdge);
-
-            string[] horizontalSockets = Array.ConvertAll<Side, string>(c.HorizontalSides, 
-                p => _socketGenerator.GetHorizontalSocket(p));
-            string[] verticalSockets   = Array.ConvertAll<Side, string>(c.VerticalSides, 
-                p => _socketGenerator.GetVerticalSocket(p));
+            var sockets = GetSocketsFromCube(c);
 
             Debug.Log(mesh.name);
-            Debug.Log(String.Join("\n", horizontalSockets) + "\n" + String.Join("\n", verticalSockets));
+            Debug.Log(String.Join("\n", sockets.Item1) + "\n" + String.Join("\n", sockets.Item2));
 
             //Create objects to view the mesh, use gizmos to illustrate sockets
-            CreatePreviews(mesh, horizontalSockets, verticalSockets);
+            CreatePreviews(mesh, sockets.Item1, sockets.Item2);
         }
     }
 
@@ -100,17 +101,12 @@ public class CreatePrototypes : MonoBehaviour
 
         foreach (var mesh in meshArray) {
             Vector3[] verteces = mesh.vertices;
-
             Cube c = CubeFactory.GetCube(verteces, meshEdge);
-
-            string[] horizontalSockets = Array.ConvertAll<Side, string>(c.HorizontalSides, 
-                p => _socketGenerator.GetHorizontalSocket(p));
-            string[] verticalSockets   = Array.ConvertAll<Side, string>(c.VerticalSides, 
-                p => _socketGenerator.GetVerticalSocket(p));
+            var sockets = GetSocketsFromCube(c);
 
             for (int i = 0; i < 4; i++)  {
-                string[] hsock = ShiftHorizontalSocket(horizontalSockets, i);
-                string[] vsock = Array.ConvertAll<string, string>(verticalSockets, s => ShiftVerticalSocket(s, i));
+                string[] hsock = ShiftHorizontalSockets(sockets.Item1, i);
+                string[] vsock = ShiftVerticalSockets(sockets.Item2, i);
 
                 prototypes.Add(new Prototype("", i, hsock, vsock));
             }
@@ -130,6 +126,7 @@ public class CreatePrototypes : MonoBehaviour
     
     /*
      * Creates previews of the prototypes and displays them in the scene
+     * Warning" lots of hardcoded values
      */
     private void CreatePreviews(Mesh mesh, string[] hs, string[] vs) {
         GameObject newObject = Instantiate(previewBasePrefab);
@@ -156,15 +153,19 @@ public class CreatePrototypes : MonoBehaviour
         _socketGenerator.Reset();
     }
     
-    private string[] ShiftHorizontalSocket(string[] sarr, int i) {
+    private string[] ShiftHorizontalSockets(string[] sarr, int i) {
         string[] shifted = new string[4];
         for (int j = 0; j < 4; j++) {
             shifted[(j+i) % 4] = sarr[j];
         }
         return shifted;
     }
+    
+    private string[] ShiftVerticalSockets(string[] sarr, int i) {
+        return Array.ConvertAll<string, string>(sarr, s => VertShift(s, i));
+    }
 
-    private string ShiftVerticalSocket(string s, int i) {
+    private string VertShift(string s, int i) {
         int len = s.Length;
         if (s[len-1].Equals('I')) {
             return s;
@@ -178,7 +179,14 @@ public class CreatePrototypes : MonoBehaviour
             return $"{s[0]}_{(x + i) % 4}";
         }
     }
-    
 
+    private (string[], string[]) GetSocketsFromCube(Cube c)
+    {
+        string[] horizontalSockets = Array.ConvertAll<Side, string>(c.HorizontalSides, 
+            p => _socketGenerator.GetHorizontalSocket(p));
+        string[] verticalSockets   = Array.ConvertAll<Side, string>(c.VerticalSides, 
+            p => _socketGenerator.GetVerticalSocket(p));
+        return (horizontalSockets, verticalSockets);
+    }
 
 }
