@@ -45,21 +45,22 @@ public class CreatePrototypes : MonoBehaviour
     //Modify this to run over array of meshes, get the sockets for each mesh, and save the prototypes (1 for each rotations). Serializable meshes?
 
     //Used as base for previews. Has gizmos attached and a mesh renderer.
-    public GameObject previewBasePrefab;
-
-    //List of previews in scene
-    public List<GameObject> previewList = new List<GameObject>();
+    [SerializeField] GameObject previewBasePrefab;
 
     //The distance between center of cube mesh and sides of cube mesh. I found this in an adhoc way. Wow.
-    public float meshEdge;
+    [SerializeField] float meshEdge;
 
     //The meshes that will be turned into previews ("test objects")
-    public Mesh[] meshArray;
+    [SerializeField] Mesh[] meshArray;
 
+    //socket generator
     private SocketGenerator _socketGenerator = new SocketGenerator();
+    
+    //List of previews in scene
+    private List<GameObject> previewList = new List<GameObject>();
 
     [ContextMenu("Create Sockets and then previews")]
-    private void TestSockets() {
+    public void TestSockets() {
         DeletePreviewsAndReset();
         foreach (var mesh in meshArray) {
 
@@ -81,7 +82,7 @@ public class CreatePrototypes : MonoBehaviour
     }
 
     [ContextMenu("Delete Previews and Reset Sockets")] 
-    private void DeletePreviewsAndReset() {
+    public void DeletePreviewsAndReset() {
         foreach (var g in previewList) {
             DestroyImmediate(g);
         }
@@ -93,7 +94,7 @@ public class CreatePrototypes : MonoBehaviour
      * 
      */
     [ContextMenu("Create Prototypes")]
-    private void CreateProtototypes() {
+    public void CreateProtototypes() {
         Reset();
 
         List<Prototype> prototypes = new List<Prototype>();

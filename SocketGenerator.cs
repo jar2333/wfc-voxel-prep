@@ -71,19 +71,20 @@ public class SocketGenerator {
 
         if (horizontalSocketDict.ContainsKey(side)) {
             sock = horizontalSocketDict[side];
-            Debug.Log($"ACCESSED SIDE{side.ToString()}");
+            Debug.Log($"ACCESSED SIDE{side.ToString()} sock: {sock}");
             return sock;
         }
 
         if (isSymmetric) {
             sock = topSocket + "S";
             horizontalSocketDict.Add(side, sock);
-            Debug.Log($"ADDED SIDE{side.ToString()}");
+            Debug.Log($"ADDED SIDE{side.ToString()}, sock: {sock}");
         }
         else {
             sock = topSocket.ToString();
             horizontalSocketDict.Add(side, sock);
             horizontalSocketDict.Add(mirroredSide, sock + "F");
+            Debug.Log($"ADDED SIDE{side.ToString()}, sock: {sock}, mirror: {sock + "F"}");
         }
         topSocket += 1;
         return sock;

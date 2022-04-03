@@ -1,9 +1,10 @@
-﻿using System;using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 //The sides of a cube, each side is a set of vertices
-public class Side : HashSet<Vertex> {
+public class Side : HashSet<Vertex>, ISide{
     //Construct Side with custom vertex comparer!
     public Side() : base() {}
     public Side(IEnumerable<Vertex> v) : base(v) {}
