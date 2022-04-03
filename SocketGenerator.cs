@@ -13,7 +13,7 @@ public class SocketGenerator {
     {
         var comparer = Side.CreateSetComparer();
         horizontalSocketDict = new Dictionary<Side, string>(comparer);
-        verticalSocketDict   = new Dictionary<Side, string>(comparer);
+        verticalSocketDict = new Dictionary<Side, string>(comparer);
     }
     
     public void Reset() {
