@@ -12,8 +12,8 @@ Then, the tool saves a *prototype* of a WFC tile. This is a json file which cont
 can then easily be loaded and used by a WFC algorithm implementation via a json deserializer.
 
 References:
-Martin Donald's WFC implementation: https://www.youtube.com/watch?v=2SuvO4Gi7uY
-Marian Kleineberg's WFC implemetation: https://marian42.de/article/wfc/
+- Martin Donald's WFC implementation: https://www.youtube.com/watch?v=2SuvO4Gi7uY
+- Marian Kleineberg's WFC implemetation: https://marian42.de/article/wfc/
 
 To use (a sample scene is included which does steps 1-3):
 
